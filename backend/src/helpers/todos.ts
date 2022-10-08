@@ -36,7 +36,7 @@ export async function getTodo(todoId: string, userId: string): Promise<TodoItem>
 export async function saveImgUrl(todoId: string, itemUrl: string, userId: string): Promise<void> {
   const todoItem = await todoDao.getTodoByUserIdAndTodoId(userId, todoId);
 
-  todoDao.saveImgUrlOfUserIdAndTodoId(todoItem.userId, todoItem.todoId, process.env.ATTACHMENT_S3_BUCKET, itemUrl);
+  todoDao.saveImgUrlOfUserIdAndTodoId(todoItem.userId, todoItem.todoId, itemUrl);
 }
 
 export async function updateTodo(

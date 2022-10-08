@@ -27,7 +27,7 @@ export const handler = middy(
     const signedUrl = s3.getSignedUrl('putObject', {
       Bucket: process.env.ATTACHMENT_S3_BUCKET,
       Key: todoId,
-      Expires: process.env.SIGNED_URL_EXPIRATION
+      Expires: parseInt(process.env.SIGNED_URL_EXPIRATION)
     });
 
     logger.info(`url has been generated, url = ${signedUrl}`)

@@ -62,7 +62,10 @@ export class TodoDao {
         TableName: this.todosTable,
         Key: { userId, todoId },
         ConditionExpression: 'attribute_exists(todoId)',
-        UpdateExpression: 'set name = :name, dueDate = :dueDate, done = :done',
+        UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
+        ExpressionAttributeNames: {
+          '#name': 'name'
+        },
         ExpressionAttributeValues: {
           ':name': updateData.name,
           ':dueDate': updateData.dueDate,
@@ -81,7 +84,7 @@ export class TodoDao {
       .promise();
   }
 
-  async saveImgUrlOfUserIdAndTodoId(userId: string, todoId: string, bucketName: string, url: string): Promise<void> {
+  async saveImgUrlOfUserIdAndTodoId(userId: string, todoId: string, url: string): Promise<void> {
     await this.docClient
       .update({
         TableName: this.todosTable,
@@ -89,7 +92,7 @@ export class TodoDao {
         ConditionExpression: 'attribute_exists(todoId)',
         UpdateExpression: 'set attachmentUrl = :attachmentUrl',
         ExpressionAttributeValues: {
-          ':attachmentUrl': `https://${bucketName}.s3.amazonaws.com/${url}`
+          ':attachmentUrl': `${url}`
         }
       })
       .promise();
